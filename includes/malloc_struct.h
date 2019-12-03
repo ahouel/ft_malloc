@@ -6,7 +6,7 @@
 /*   By: ahouel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 15:55:20 by ahouel            #+#    #+#             */
-/*   Updated: 2019/12/02 18:34:17 by ahouel           ###   ########.fr       */
+/*   Updated: 2019/12/03 18:28:15 by ahouel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,10 @@
 # define MALLOC_STRUCT_H
 
 # define MULT				100
-# define TINY_MAX			(size_t)1024
-# define SMALL_MAX			(size_t)4096
-# define TINY_MULT			(TINY_MAX + sizeof(t_block)) * MULT
-# define SMALL_MULT			(SMALL_MAX + sizeof(t_block)) * MULT
-# define ZONE_TINY			(size_t)TINY_MULT + sizeof(t_area)
-# define ZONE_SMALL			(size_t)SMALL_MULT + sizeof(t_area)
+# define TINY_MAX			1024
+# define SMALL_MAX			4096
 
 # define ALIGN				16
-
-# define PROT				PROT_READ | PROT_WRITE
-# define MAP				MAP_ANON | MAP_PRIVATE
 
 # define MEM_COLUMNS		20
 # define MEM_SHORT			1

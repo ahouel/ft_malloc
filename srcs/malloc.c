@@ -6,7 +6,7 @@
 /*   By: ahouel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 15:51:55 by ahouel            #+#    #+#             */
-/*   Updated: 2019/12/02 18:34:14 by ahouel           ###   ########.fr       */
+/*   Updated: 2019/12/03 18:28:19 by ahouel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ static t_area	*create_area(t_area **lst_area, const size_t zone_size)
 	t_area	*area;
 	t_area	*new;
 
-	if ((new = mmap(0, zone_size, PROT, MAP, -1, 0)) == MAP_FAILED)
+	if ((new = mmap(0, zone_size, PROT_READ | PROT_WRITE, \
+					MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (0);
 	ft_bzero(new, sizeof(t_area));
 	new->size = zone_size;
@@ -144,10 +145,10 @@ void			*malloc(size_t size)
 	ptr = 0;
 	if (size < TINY_MAX + 1)
 		ptr = malloc_tiny_small(&g_malloc_pages.tiny, \
-				ft_align(ZONE_TINY, getpagesize()), ft_align(size, ALIGN));
+				ft_align(zone_tiny(), getpagesize()), ft_align(size, ALIGN));
 	else if (size < SMALL_MAX + 1)
 		ptr = malloc_tiny_small(&g_malloc_pages.small, \
-				ft_align(ZONE_SMALL, getpagesize()), ft_align(size, ALIGN));
+				ft_align(zone_small(), getpagesize()), ft_align(size, ALIGN));
 	else
 		ptr = malloc_large(&g_malloc_pages.large, \
 				ft_align(size + sizeof(t_area) + sizeof(t_block), \

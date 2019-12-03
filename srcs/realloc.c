@@ -6,7 +6,7 @@
 /*   By: ahouel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 15:53:11 by ahouel            #+#    #+#             */
-/*   Updated: 2019/12/02 18:34:12 by ahouel           ###   ########.fr       */
+/*   Updated: 2019/12/03 18:28:21 by ahouel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,23 @@ static t_block	*get_block(void *ptr)
 	if (!(block = is_block_valid(&area->blocks, ptr)))
 		return (0);
 	return (block);
+}
+
+/*
+**	Doesn't change de pointer in case the size is smaller than the original
+**	one. If size if zero and ptr not NULL, return a new, minimum sized
+**	object and free the original one.
+*/
+
+static void		*undersized_realloc(void *ptr, size_t size)
+{
+	pthread_mutex_unlock(&g_mutex);
+	if (!size)
+	{
+		free(ptr);
+		ptr = malloc(size);
+	}
+	return (ptr);
 }
 
 /*
@@ -55,15 +72,7 @@ void			*realloc(void *ptr, size_t size)
 		return (0);
 	}
 	if (size <= block->size)
-	{
-		pthread_mutex_unlock(&g_mutex);
-		if (!size)
-		{
-			free(ptr);
-			ptr = malloc(size);
-		}
-		return (ptr);
-	}
+		return (undersized_realloc(ptr, size));
 	pthread_mutex_unlock(&g_mutex);
 	if (!(ret = malloc(size)))
 		return (ptr);

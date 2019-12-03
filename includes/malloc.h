@@ -6,7 +6,7 @@
 /*   By: ahouel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 15:54:04 by ahouel            #+#    #+#             */
-/*   Updated: 2019/11/13 17:41:29 by ahouel           ###   ########.fr       */
+/*   Updated: 2019/12/03 18:28:17 by ahouel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,7 @@ t_block	*is_block_valid(t_block **block_lst, void *ptr);
 void	*mmap_errors(const size_t size);
 void	show_alloc_mem(void);
 size_t	ft_align(size_t size, size_t align);
+size_t	zone_tiny(void);
+size_t	zone_small(void);
 
 #endif

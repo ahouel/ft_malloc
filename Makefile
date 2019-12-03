@@ -6,7 +6,7 @@
 #    By: ahouel <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/16 10:03:32 by ahouel            #+#    #+#              #
-#    Updated: 2019/11/08 18:28:18 by ahouel           ###   ########.fr        #
+#    Updated: 2019/12/03 18:35:42 by ahouel           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,8 @@ SRC_FILES =	free.c				\
 			which_area.c		\
 			show_alloc_mem.c	\
 			ft_align.c			\
+			zone_tiny.c			\
+			zone_small.c		\
 			mmap_errors.c
 
 INC_FILES = malloc.h	\
@@ -102,6 +104,7 @@ $(NORME_FULL): $(NORME)
 
 test: $(NAME) $(TEST_FILES)
 	@$(CC) libft_malloc.so -I $(INC_PATH) -I $(LIB_INC) $(LIB) $(TEST_FILES) -o test
+	@echo $(CYAN)Binary $(BOLD)test$(CYAN) created.$(NORMAL)
 
 clean:
 ifeq ("$(shell test -e $(OBJ_PATH) && echo titi)", "titi")
@@ -111,7 +114,6 @@ ifneq ($(SRC_PATH), $(OBJ_PATH))
 else
 	@echo $(RED)SRC_PATH and OBJ_PATH shouldn\'t be the same, please change it !$(NORMAL)
 endif
-	@make -C $(LIB_PATH) clean
 else
 	@echo $(RED)Objects files of $(BOLD)$(notdir $(HOSTLIB))$(RED) not found.$(NORMAL)
 endif
@@ -119,9 +121,6 @@ endif
 fclean: clean
 	@rm -f test_sh
 	@rm -f test
-ifeq ("$(shell test -e $(LIB) && echo toto)", "toto")
-	@rm $(LIB)
-endif
 ifeq ("$(shell test -e $(NAME) && echo toto)", "toto")
 	@rm $(NAME)
 	@echo $(RED)Link $(BOLD)$(notdir $(NAME))$(RED) removed.$(NORMAL)
